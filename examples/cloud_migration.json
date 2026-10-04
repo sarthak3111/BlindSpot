@@ -1,0 +1,8 @@
+{
+  "user_input": "Our team is deciding whether to rewrite our core monolith into Kubernetes microservices hosted on AWS or keep our current single Postgres + monolithic service on an existing bare-metal server. The monolith is getting slightly harder to deploy and takes 15 minutes to run integration tests, but we have never experienced customer-facing downtime. Several junior developers are pushing hard for microservices because they want experience with modern distributed systems on their resumes. I believe that since everyone is using microservices, we will definitely struggle to hire future engineers if we stay on our monolith. We have a 4-month runway to release our next major product milestone.",
+  "options": [
+    "Refactor monolith into Kubernetes microservices on AWS",
+    "Keep and optimize existing monolith on bare-metal server"
+  ],
+  "context": "Stated priorities: Fast delivery of product milestone in 4 months, operational stability, and developer hiring/retention."
+}

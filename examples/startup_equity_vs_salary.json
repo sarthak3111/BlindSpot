@@ -1,0 +1,8 @@
+{
+  "user_input": "I received an offer where the company is letting me choose between Option A: $180,000 cash salary with 0.1% equity, or Option B: $110,000 cash salary with 0.8% equity. I am leaning strongly toward Option B because I don't want to leave millions on the table if the company exits, and I can always tighten my belt for a couple of years. My monthly rent is $3,200 and I have $25,000 in student loans. I assume the company will IPO or get acquired within 3 to 4 years because they just closed their Series B from a reputable VC.",
+  "options": [
+    "Option A: High cash ($180k) + Low equity (0.1%)",
+    "Option B: Lower cash ($110k) + Higher equity (0.8%)"
+  ],
+  "context": "Stated priorities: Maximum wealth creation over 3-4 years, managing existing debt and living expenses."
+}

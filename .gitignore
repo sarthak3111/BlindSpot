@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments & Keys
+.env
+.env.*
+!.env.example
+venv/
+env/
+.venv/
+
+# Testing & Logs
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Browser profiles
+.edge_profile/

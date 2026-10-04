@@ -1,0 +1,8 @@
+{
+  "user_input": "I'm deciding whether to leave my senior engineering role at an established enterprise company to join a 5-person AI startup as founding engineer. The startup offered $135k base salary (a 30% reduction from my current $195k) plus 2% equity with a 4-year vesting schedule. My reasoning is that generative AI agents are the biggest platform shift in history, so this startup is practically guaranteed to reach at least a $500M valuation, making my equity worth $10M. My spouse and I recently took out a mortgage, and our monthly expenses are high, but I feel that staying in big enterprise is wasting my peak productive years. The startup founder seemed very charismatic and assured me they will easily raise a Series A within 6 months.",
+  "options": [
+    "Remain at established enterprise company ($195k salary, stable)",
+    "Join 5-person AI startup ($135k base, 2% equity, high uncertainty)"
+  ],
+  "context": "Stated priorities: Maximize financial upside over 5 years, while maintaining family financial solvency under mortgage obligations."
+}
