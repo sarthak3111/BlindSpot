@@ -62,7 +62,7 @@ class AnthropicProvider(BaseLLMProvider):
         }
 
         try:
-            resp = requests.post(self.API_URL, json=payload, headers=headers, timeout=self.timeout)
+            resp = self.session.post(self.API_URL, json=payload, headers=headers, timeout=self.timeout)
             resp.raise_for_status()
             data = resp.json()
 

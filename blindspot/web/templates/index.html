@@ -356,16 +356,11 @@
       ];
 
       const cardsContainer = document.getElementById('categoryCards');
-      cardsContainer.innerHTML = '';
-
-      categories.forEach(cat => {
+      const allCardsHtml = categories.map(cat => {
         const items = data[cat.key] || [];
-        if (items.length === 0) return;
+        if (items.length === 0) return '';
 
-        const catCard = document.createElement('div');
-        catCard.className = 'bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4';
-
-        let itemsHtml = items.map((item, idx) => {
+        const itemsHtml = items.map((item) => {
           const isObs = (item.classification || '').toUpperCase().includes('OBSERV');
           const badgeClass = isObs 
             ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' 
@@ -396,29 +391,27 @@
           `;
         }).join('');
 
-        catCard.innerHTML = `
-          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">${escapeHtml(cat.label)}</h4>
-            <span class="text-xs font-mono text-slate-500">${items.length} detected</span>
+        return `
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">${escapeHtml(cat.label)}</h4>
+              <span class="text-xs font-mono text-slate-500">${items.length} detected</span>
+            </div>
+            <div class="space-y-3">${itemsHtml}</div>
           </div>
-          <div class="space-y-3">${itemsHtml}</div>
         `;
+      }).join('');
 
-        cardsContainer.appendChild(catCard);
-      });
+      cardsContainer.innerHTML = allCardsHtml;
 
-      // Questions to explore
+      // Questions to explore (batched single DOM assignment)
       const qList = document.getElementById('resQuestions');
-      qList.innerHTML = '';
-      (data.questions_to_explore || []).forEach(q => {
-        const li = document.createElement('li');
-        li.className = 'flex items-start gap-2.5';
-        li.innerHTML = `
+      qList.innerHTML = (data.questions_to_explore || []).map(q => `
+        <li class="flex items-start gap-2.5">
           <span class="text-indigo-400 font-bold shrink-0">•</span>
           <span class="leading-relaxed">${escapeHtml(q)}</span>
-        `;
-        qList.appendChild(li);
-      });
+        </li>
+      `).join('');
 
       // Raw JSON
       document.getElementById('rawJsonContent').innerText = JSON.stringify(data, null, 2);

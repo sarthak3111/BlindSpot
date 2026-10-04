@@ -66,21 +66,27 @@ class GuardrailValidator:
         r"\branks?\s+(higher|lower|above|below)\b"
     ]
 
+    # Pre-compiled module-level patterns to avoid redundant recompilation
+    _COMPILED_RECOMMENDATION = [re.compile(p, re.IGNORECASE) for p in RECOMMENDATION_PATTERNS]
+    _COMPILED_RANKING = [re.compile(p, re.IGNORECASE) for p in RANKING_PATTERNS]
+
     def __init__(self, custom_disallowed_phrases: Optional[List[str]] = None):
         self.disallowed_phrases = custom_disallowed_phrases or []
+        self._compiled_custom = [
+            re.compile(r"\b" + re.escape(p) + r"\b", re.IGNORECASE)
+            for p in self.disallowed_phrases
+        ]
 
     def validate(self, result: AnalysisResult, user_input: str = "") -> GuardrailReport:
         violations: List[GuardrailViolation] = []
         warnings: List[GuardrailViolation] = []
 
-        # 1. Text scans for recommendation & ranking across all fields
+        # 1. Text scans for recommendation & ranking across all fields using pre-compiled patterns
         all_text_blocks = self._extract_all_text(result)
 
         for location, text in all_text_blocks.items():
-            lower_text = text.lower()
-
-            for pattern in self.RECOMMENDATION_PATTERNS:
-                match = re.search(pattern, lower_text)
+            for pattern in self._COMPILED_RECOMMENDATION:
+                match = pattern.search(text)
                 if match:
                     violations.append(GuardrailViolation(
                         rule="NO_RECOMMENDATION",
@@ -89,8 +95,8 @@ class GuardrailValidator:
                         context_snippet=text[max(0, match.start() - 30): min(len(text), match.end() + 30)]
                     ))
 
-            for pattern in self.RANKING_PATTERNS:
-                match = re.search(pattern, lower_text)
+            for pattern in self._COMPILED_RANKING:
+                match = pattern.search(text)
                 if match:
                     violations.append(GuardrailViolation(
                         rule="NO_RANKING",
@@ -99,12 +105,13 @@ class GuardrailValidator:
                         context_snippet=text[max(0, match.start() - 30): min(len(text), match.end() + 30)]
                     ))
 
-            for phrase in self.disallowed_phrases:
-                if phrase.lower() in lower_text:
+            for pattern in self._compiled_custom:
+                match = pattern.search(text)
+                if match:
                     violations.append(GuardrailViolation(
                         rule="DISALLOWED_PHRASE",
                         severity=ViolationSeverity.CRITICAL,
-                        message=f"Disallowed phrase '{phrase}' detected in {location}.",
+                        message=f"Disallowed phrase '{match.group(0)}' detected in {location}.",
                         context_snippet=text
                     ))
 

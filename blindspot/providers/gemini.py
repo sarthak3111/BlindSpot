@@ -68,7 +68,7 @@ class GeminiProvider(BaseLLMProvider):
         }
 
         try:
-            resp = requests.post(url, json=payload, headers=headers, timeout=self.timeout)
+            resp = self.session.post(url, json=payload, headers=headers, timeout=self.timeout)
             resp.raise_for_status()
             data = resp.json()
 

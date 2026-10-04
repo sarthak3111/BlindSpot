@@ -125,11 +125,8 @@ def format_user_prompt(user_input: str, context: str = None, options: list = Non
     prompt_parts.extend([
         "",
         "=== INSTRUCTIONS ===",
-        "Examine the reasoning above strictly under the BlindSpot rules.",
-        "Remember: DO NOT rank, DO NOT recommend, DO NOT tell the user which decision to make.",
-        "Ground every blind spot in the user's explicit words or clear logical omissions.",
-        "Distinguish clearly between OBSERVATION and HYPOTHESIS.",
-        "Output strictly valid JSON matching the specified schema."
+        "Examine the reasoning above strictly under the BlindSpot rules (no recommendations or rankings).",
+        "Ground every blind spot in the input, distinguish OBSERVATION vs HYPOTHESIS, and output strictly valid JSON matching the schema."
     ])
 
     return "\n".join(prompt_parts)

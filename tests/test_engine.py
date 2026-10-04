@@ -73,3 +73,14 @@ def test_engine_passes_with_warnings_in_non_strict_mode():
     result = violating_engine.analyze(user_input="Help me think through Option A vs Option B")
     assert result.metadata["guardrails_passed"] is False
     assert result.metadata["violations_count"] > 0
+
+
+def test_provider_factory_caching():
+    from blindspot.providers.factory import get_provider, clear_provider_cache
+    clear_provider_cache()
+    p1 = get_provider("heuristic")
+    p2 = get_provider("heuristic")
+    assert p1 is p2
+    clear_provider_cache()
+    p3 = get_provider("heuristic")
+    assert p3 is not p1

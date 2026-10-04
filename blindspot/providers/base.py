@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
+import requests
 
 
 class BaseLLMProvider(ABC):
@@ -10,6 +11,14 @@ class BaseLLMProvider(ABC):
     def __init__(self, model: Optional[str] = None, **kwargs):
         self.model = model
         self.config = kwargs
+        self._session: Optional[requests.Session] = None
+
+    @property
+    def session(self) -> requests.Session:
+        """Lazily initialize and reuse a persistent HTTP session for connection pooling."""
+        if self._session is None:
+            self._session = requests.Session()
+        return self._session
 
     @property
     @abstractmethod

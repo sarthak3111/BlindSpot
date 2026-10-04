@@ -1,6 +1,7 @@
 """Pydantic models and schemas for the BlindSpot AI analysis engine."""
 
 from __future__ import annotations
+import json
 from enum import Enum
 from typing import List, Optional, Union, Dict, Any
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -179,20 +180,10 @@ class AnalysisResult(BaseModel):
 
     def to_dict(self) -> Dict[str, Any]:
         """Return the dictionary strictly matching the requested JSON schema."""
-        return {
-            "decision_summary": self.decision_summary,
-            "core_tension": self.core_tension,
-            "assumptions": [item.model_dump() for item in self.assumptions],
-            "overlooked_factors": [item.model_dump() for item in self.overlooked_factors],
-            "contradictions": [item.model_dump() for item in self.contradictions],
-            "evidence_gaps": [item.model_dump() for item in self.evidence_gaps],
-            "tradeoffs": [item.model_dump() for item in self.tradeoffs],
-            "questions_to_explore": self.questions_to_explore
-        }
+        return self.model_dump(exclude={"metadata"})
 
     def to_json(self, indent: int = 2) -> str:
         """Serialize to formatted JSON."""
-        import json
         return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
 
     def to_markdown(self) -> str:
